@@ -6,7 +6,7 @@
 /*   By: jde-meo <jde-meo@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:13:32 by jde-meo           #+#    #+#             */
-/*   Updated: 2023/10/16 17:29:00 by jde-meo          ###   ########.fr       */
+/*   Updated: 2023/10/16 17:35:16 by jde-meo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -710,13 +710,15 @@ int	main(int ac, char **av)
 		format = func_straddchr(format, '|');
 		int	randomint = urandom() % 4096;
 		unsigned long long pointer = urandom() % LLONG_MAX;
+		char *stringtest = gen_random_str(0);
+		char chartest = urandom() % 125 + 1;
 
 		int	stdout_bk = dup(fileno(stdout));
 		int	pipefd[2];
 		pipe(pipefd);
 		// REDIRECT STDOUT TO PIPE ===========
 		dup2(pipefd[1], fileno(stdout));
-		int res1 = printf(format, '4', "test ft_printf 42", pointer, randomint, -randomint, randomint - 255, randomint - 2048, randomint - 4096);
+		int res1 = printf(format, chartest, stringtest, pointer, randomint, -randomint, randomint - 255, randomint - 2048, randomint - 4096);
 		fflush(stdout);
 		write(pipefd[1], "\0", 1);
 		close(pipefd[1]);
@@ -729,7 +731,7 @@ int	main(int ac, char **av)
 		pipe(pipefd);
 		// REDIRECT STDOUT TO PIPE ===========
 		dup2(pipefd[1], fileno(stdout));
-		int res2 = ft_printf(format, '4', "test ft_printf 42", pointer, randomint, -randomint, randomint - 255, randomint - 2048, randomint - 4096);
+		int res2 = ft_printf(format, chartest, stringtest, pointer, randomint, -randomint, randomint - 255, randomint - 2048, randomint - 4096);
 		fflush(stdout);
 		write(pipefd[1], "\0", 1);
 		close(pipefd[1]);
@@ -751,6 +753,7 @@ int	main(int ac, char **av)
 			printf("   printf printed :%s\n", buffer1);
 			printf("returning : %d\n", res1);
 		}
+		free(stringtest);
 		free(format);
 	}
 	if (bonus_pass && bonus_test)
