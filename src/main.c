@@ -6,7 +6,7 @@
 /*   By: jde-meo <jde-meo@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:13:32 by jde-meo           #+#    #+#             */
-/*   Updated: 2023/10/16 17:11:43 by jde-meo          ###   ########.fr       */
+/*   Updated: 2023/10/16 17:14:48 by jde-meo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ static size_t	strlcat(char *dst, const char *src, size_t size)
 	return (dest_length + src_length);
 }
 
-static char	*ft_straddchr(char *str, char c)
+static char	*func_straddchr(char *str, char c)
 {
 	char	*out;
 	int		len;
@@ -133,7 +133,7 @@ static char	*ft_straddchr(char *str, char c)
 	return (out);
 }
 
-static char	*ft_strcat_malloc(char *dest, char *src)
+static char	*strcat_malloc(char *dest, char *src)
 {
 	char	*str;
 	size_t	len1;
@@ -165,7 +165,7 @@ static void	itoa_base_proc(char **str, long long int nb, char *base)
 		nb *= -1;
 	if (nb >= base_len)
 		itoa_base_proc(str, nb / base_len, base);
-	*str = ft_straddchr(*str, base[nb % base_len]);
+	*str = func_straddchr(*str, base[nb % base_len]);
 }
 
 static void	itoa_base_proc_ptr(char **s, unsigned long long int n, char *b)
@@ -175,10 +175,10 @@ static void	itoa_base_proc_ptr(char **s, unsigned long long int n, char *b)
 	base_len = (unsigned int)strlen(b);
 	if (n >= base_len)
 		itoa_base_proc_ptr(s, n / base_len, b);
-	*s = ft_straddchr(*s, b[n % base_len]);
+	*s = func_straddchr(*s, b[n % base_len]);
 }
 
-static char	*ft_itoa_base(long long int n, char *base, int ptr)
+static char	*itoa_base_ft(long long int n, char *base, int ptr)
 {
 	char	*str;
 
@@ -204,21 +204,21 @@ static char	*gen_random_str(int size)
 
 static void	gen_random_format(char **str, char spec)
 {
-	*str = ft_straddchr(*str, '|');
-	*str = ft_straddchr(*str, '%');
+	*str = func_straddchr(*str, '|');
+	*str = func_straddchr(*str, '%');
 	int size = urandom() % 6;
 	for (int i = 0; i < size; i++)
 	{
-		*str = ft_straddchr(*str, flags[urandom() % 5]);
+		*str = func_straddchr(*str, flags[urandom() % 5]);
 	}
-	char *itoaout = ft_itoa_base(urandom() % 30, "0123456789", 0);
-	*str = ft_strcat_malloc(*str, itoaout);
+	char *itoaout = itoa_base_ft(urandom() % 30, "0123456789", 0);
+	*str = strcat_malloc(*str, itoaout);
 	free(itoaout);
-	*str = ft_straddchr(*str, '.');
-		  itoaout = ft_itoa_base(urandom() % 30, "0123456789", 0);
-	*str = ft_strcat_malloc(*str, itoaout);
+	*str = func_straddchr(*str, '.');
+		  itoaout = itoa_base_ft(urandom() % 30, "0123456789", 0);
+	*str = strcat_malloc(*str, itoaout);
 	free(itoaout);
-	*str = ft_straddchr(*str, spec);
+	*str = func_straddchr(*str, spec);
 }
 
 int	main(int ac, char **av)
@@ -275,8 +275,8 @@ int	main(int ac, char **av)
 		char *s = NULL;
 		for	(int i = 0; i < 256; i++)
 		{
-			format = ft_strcat_malloc(format, "%c");
-			s = ft_straddchr(s, (char)i);
+			format = strcat_malloc(format, "%c");
+			s = func_straddchr(s, (char)i);
 		}
 		
 		int	stdout_bk = dup(fileno(stdout));
@@ -346,9 +346,9 @@ int	main(int ac, char **av)
 		for (int i = 0; i < 5; i++)
 		{
 			strs[i] = gen_random_str(0);
-			format = ft_strcat_malloc(format, "|%s");
+			format = strcat_malloc(format, "|%s");
 		}
-		format = ft_straddchr(format, '|');
+		format = func_straddchr(format, '|');
 
 		int	stdout_bk = dup(fileno(stdout));
 		int	pipefd[2];
@@ -419,9 +419,9 @@ int	main(int ac, char **av)
 		for (int k = 0; k < 5; k++)
 		{
 			ptrs[k] = (void *)((unsigned long long)urandom() * (unsigned long long)urandom());
-			format = ft_strcat_malloc(format, "|%p");
+			format = strcat_malloc(format, "|%p");
 		}
-		format = ft_straddchr(format, '|');
+		format = func_straddchr(format, '|');
 
 		int	stdout_bk = dup(fileno(stdout));
 		int	pipefd[2];
@@ -488,17 +488,17 @@ int	main(int ac, char **av)
 		for (int k = 0; k < 5; k++)
 		{
 			ints[k] = (long)urandom() - (long)urandom();
-			format = ft_strcat_malloc(format, "|%d");
+			format = strcat_malloc(format, "|%d");
 		}
 		for (int k = 0; k < 5; k++)
 		{
-			format = ft_strcat_malloc(format, "|%i");
+			format = strcat_malloc(format, "|%i");
 		}
 		for (int k = 0; k < 5; k++)
 		{
-			format = ft_strcat_malloc(format, "|%u");
+			format = strcat_malloc(format, "|%u");
 		}
-		format = ft_straddchr(format, '|');
+		format = func_straddchr(format, '|');
 
 		int	stdout_bk = dup(fileno(stdout));
 		int	pipefd[2];
@@ -565,13 +565,13 @@ int	main(int ac, char **av)
 		for (int k = 0; k < 5; k++)
 		{
 			ints[k] = (long)urandom() - (long)urandom();
-			format = ft_strcat_malloc(format, "|%x");
+			format = strcat_malloc(format, "|%x");
 		}
 		for (int k = 0; k < 5; k++)
 		{
-			format = ft_strcat_malloc(format, "|%X");
+			format = strcat_malloc(format, "|%X");
 		}
-		format = ft_straddchr(format, '|');
+		format = func_straddchr(format, '|');
 
 		int	stdout_bk = dup(fileno(stdout));
 		int	pipefd[2];
@@ -636,11 +636,11 @@ int	main(int ac, char **av)
 		for (int k = 0; k < prc_test; k++)
 		{
 			int pcam = (urandom() % 125) + 1;
-			format = ft_straddchr(format, '|');
+			format = func_straddchr(format, '|');
 			while(--pcam > 0)
-				format = ft_straddchr(format, '%');
+				format = func_straddchr(format, '%');
 		}
-		format = ft_straddchr(format, '|');
+		format = func_straddchr(format, '|');
 
 		int	stdout_bk = dup(fileno(stdout));
 		int	pipefd[2];
@@ -711,7 +711,7 @@ int	main(int ac, char **av)
 		gen_random_format(&format, 'x');
 		gen_random_format(&format, 'X');
 		gen_random_format(&format, '%');
-		format = ft_straddchr(format, '|');
+		format = func_straddchr(format, '|');
 		int	randomint = urandom() % 4096;
 		unsigned long long pointer = urandom() % LLONG_MAX;
 
