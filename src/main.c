@@ -6,7 +6,7 @@
 /*   By: jde-meo <jde-meo@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:13:32 by jde-meo           #+#    #+#             */
-/*   Updated: 2023/10/16 17:14:48 by jde-meo          ###   ########.fr       */
+/*   Updated: 2023/10/16 17:15:50 by jde-meo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,25 +168,12 @@ static void	itoa_base_proc(char **str, long long int nb, char *base)
 	*str = func_straddchr(*str, base[nb % base_len]);
 }
 
-static void	itoa_base_proc_ptr(char **s, unsigned long long int n, char *b)
-{
-	unsigned int	base_len;
-
-	base_len = (unsigned int)strlen(b);
-	if (n >= base_len)
-		itoa_base_proc_ptr(s, n / base_len, b);
-	*s = func_straddchr(*s, b[n % base_len]);
-}
-
 static char	*itoa_base_ft(long long int n, char *base, int ptr)
 {
 	char	*str;
 
 	str = NULL;
-	if (ptr)
-		itoa_base_proc_ptr(&str, (unsigned long long int)n, base);
-	else
-		itoa_base_proc(&str, n, base);
+	itoa_base_proc(&str, n, base);
 	return (str);
 }
 
