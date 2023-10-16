@@ -6,7 +6,7 @@
 /*   By: jde-meo <jde-meo@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:13:32 by jde-meo           #+#    #+#             */
-/*   Updated: 2023/10/16 17:15:50 by jde-meo          ###   ########.fr       */
+/*   Updated: 2023/10/16 17:29:00 by jde-meo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ int	main(int ac, char **av)
 	{
 		if (av[i][0] == 'c')
 		{
-			chr_test = atoi(av[i] + 1);
+			chr_test = 1;
 		}
 		else if (av[i][0] == 's')
 		{
@@ -248,6 +248,15 @@ int	main(int ac, char **av)
 		{
 			bonus_test = atoi(av[i] + 1);
 		}
+	}
+
+	if ((chr_test + str_test + ptr_test + int_test + hex_test + prc_test + bonus_test) >= 340)
+	{
+		setColor(BOLD_RED);
+		printf("Too much tests (can't exceed 339 tests)\n");
+		setColor(RED);
+		printf("Aborting...\n");
+		return (-1);
 	}
 
 	urandom_init();
