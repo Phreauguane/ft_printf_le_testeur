@@ -10,7 +10,7 @@ clone this repository to a new folder
 
 copy your project into the new folder
 
-go to ```grademe.sh``` and change ```-I projet``` to the correct include path
+go to ```grademe.sh``` and change ```-I ft_printf``` to the correct include path
 
 for example ```-I ft_printf/include```
 
