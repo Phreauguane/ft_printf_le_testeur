@@ -6,7 +6,7 @@
 /*   By: jde-meo <jde-meo@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:13:32 by jde-meo           #+#    #+#             */
-/*   Updated: 2023/10/16 17:35:16 by jde-meo          ###   ########.fr       */
+/*   Updated: 2023/10/17 14:13:04 by jde-meo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -741,7 +741,7 @@ int	main(int ac, char **av)
 		// RESTORE STDOUT ====================
 		dup2(stdout_bk, fileno(stdout));
 		
-		if (!(res1 == res2 && strcmp(buffer1, buffer2) == 0))
+		if (!(res1 == res2 && memcmp(buffer1, buffer2, res1) == 0))
 		{
 			bonus_pass = 0;
 			setColor(BOLD_RED);
