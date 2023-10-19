@@ -6,7 +6,7 @@
 /*   By: jde-meo <jde-meo@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:13:32 by jde-meo           #+#    #+#             */
-/*   Updated: 2023/10/17 14:13:04 by jde-meo          ###   ########.fr       */
+/*   Updated: 2023/10/19 15:37:01 by jde-meo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,19 @@ static unsigned int	strlcpy(char *dest, char *src, unsigned int size)
 		dest[i2] = '\0';
 	}
 	return (i);
+}
+
+void	shuffle_str(char *str)
+{
+	int	len = strlen(str);
+	for (int i = 0; i++ < len * len;)
+	{
+		int	i1 = urandom() % len;
+		int i2 = urandom() % len;
+		char temp = str[i1];
+		str[i1] = str[i2];	
+		str[i2] = temp;
+	}
 }
 
 static size_t	strlcat(char *dst, const char *src, size_t size)
@@ -274,7 +287,7 @@ int	main(int ac, char **av)
 			format = strcat_malloc(format, "%c");
 			s = func_straddchr(s, (char)i);
 		}
-		
+		shuffle_str(s);
 		int	stdout_bk = dup(fileno(stdout));
 		int	pipefd[2];
 		pipe(pipefd);
